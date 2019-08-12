@@ -1,0 +1,9 @@
+node_modules
+
+tmp/uploads/*
+!tmp/uploads/.gitkeep
+#ignora as variáveis de ambiente
+.env
+
+__tests__/database.sqlite
+__tests__/coverage
