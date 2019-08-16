@@ -85,7 +85,7 @@ describe('Subscription', () => {
       .post(`/meetup/${meetup2.id}/subscribe`)
       .set('Authorization', `bearer ${token2}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("shouldn't subscribe to the same meetup twice", async () => {
@@ -116,7 +116,7 @@ describe('Subscription', () => {
       .post(`/meetup/${meetup.id}/subscribe`)
       .set('Authorization', `bearer ${token2}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it("shouldn't subscribe to its own meetup", async () => {
@@ -127,7 +127,7 @@ describe('Subscription', () => {
       .post(`/meetup/${meetup.id}/subscribe`)
       .set('Authorization', `bearer ${token1}`);
 
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
   });
 
   it('should unsubscribe the user to a meetup', async () => {
