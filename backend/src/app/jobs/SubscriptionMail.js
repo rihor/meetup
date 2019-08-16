@@ -7,7 +7,7 @@ class SubscriptionMail {
 
   async handle({ data }) {
     const { meetup, user } = data;
-    console.log(meetup);
+
     await Mail.sendMail({
       to: `${meetup.User.name} <${meetup.User.email}>`,
       subject: `[${meetup.title}] ${user.name} se inscreveu`,

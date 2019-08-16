@@ -1,7 +1,12 @@
+/**
+ * Para cada job é criada uma fila e dentro dessa fila
+ * é armazenada o 'bee' que é a instancia que conecta ao Redis
+ * e também o método que processa o job
+ */
 import Bee from 'bee-queue';
 import * as Sentry from '@sentry/node';
-import sentryConfig from '../config/sentry';
 
+import sentryConfig from '../config/sentry';
 import SubscriptionMail from '../app/jobs/SubscriptionMail';
 
 Sentry.init(sentryConfig);
