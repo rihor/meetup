@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { isBefore, parseISO, startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 
@@ -61,17 +60,6 @@ class MeetupController {
   }
 
   async store(req, res) {
-    const schema = Yup.object().shape({
-      title: Yup.string().required(),
-      description: Yup.string().required(),
-      location: Yup.string().required(),
-      date: Yup.date().required(),
-      banner_id: Yup.number().required(),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
     const { date } = req.body;
 
     if (isBefore(parseISO(date), new Date())) {
@@ -88,19 +76,6 @@ class MeetupController {
     const { meetupId } = req.params;
     const { banner_id } = req.body;
 
-    // schema de validação
-    const schema = Yup.object().shape({
-      title: Yup.string(),
-      banner_id: Yup.number(),
-      description: Yup.string(),
-      location: Yup.string(),
-      date: Yup.date(),
-    });
-
-    // checagem pela schema
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails' });
-    }
     // achar a meetup de acordo com o id passado nos parametros
     const meetup = await Meetup.findByPk(meetupId);
 
