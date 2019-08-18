@@ -27,23 +27,28 @@ export default function MeetupDetails({ match }) {
 
   useEffect(() => {
     async function loadMeetup() {
-      setLoading(true);
-      const { id } = match.params;
-      const response = await api.get(`meetup/${id}`);
+      try {
+        setLoading(true);
+        const { id } = match.params;
+        const response = await api.get(`meetup/${id}`);
 
-      const meetupWithFormattedDate = {
-        ...response.data,
-        formattedDate: format(
-          parseISO(response.data.date),
-          "d 'de' MMMM', às' HH'h' mm'min'",
-          {
-            locale: pt,
-          }
-        ),
-      };
-      console.tron.log(meetupWithFormattedDate);
-      setMeetup(meetupWithFormattedDate);
-      setLoading(false);
+        const meetupWithFormattedDate = {
+          ...response.data,
+          formattedDate: format(
+            parseISO(response.data.date),
+            "d 'de' MMMM', às' HH'h' mm'min'",
+            {
+              locale: pt,
+            }
+          ),
+        };
+        console.tron.log(meetupWithFormattedDate);
+        setMeetup(meetupWithFormattedDate);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        history.push('/dashboard');
+      }
     }
     loadMeetup();
   }, [match.params]);
