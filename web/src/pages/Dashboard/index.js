@@ -11,31 +11,38 @@ export default function Dashboard() {
   const [meetups, setMeetups] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     async function loadMeetups() {
       setLoading(true);
       setError(false);
-      const response = await api.get('organizing').catch(() => {
+      setEmpty(false);
+      try {
+        const { data } = await api.get('organizing').catch(() => {
+          setLoading(false);
+          setError(true);
+        });
+        if (data.length === 0) {
+          setEmpty(true);
+        }
+        const meetupsData = data.map(meetup => ({
+          ...meetup,
+          formattedDate: format(
+            parseISO(meetup.date),
+            "d 'de' MMMM', às' HH'h' mm'min'",
+            {
+              locale: pt,
+            }
+          ),
+        }));
+        setMeetups(meetupsData);
+        setLoading(false);
+        setError(false);
+      } catch (err) {
         setLoading(false);
         setError(true);
-      });
-      if (!response) {
-        return;
       }
-      const data = response.data.map(meetup => ({
-        ...meetup,
-        formattedDate: format(
-          parseISO(meetup.date),
-          "d 'de' MMMM', às' HH'h' mm'min'",
-          {
-            locale: pt,
-          }
-        ),
-      }));
-      setMeetups(data);
-      setLoading(false);
-      setError(false);
     }
     loadMeetups();
   }, []);
@@ -51,10 +58,10 @@ export default function Dashboard() {
           </button>
         </Link>
       </Header>
-      {loading || error ? (
-        <Loading>
-          {loading ? 'Carregando...' : 'Ocorreu um erro inesperado.'}
-        </Loading>
+      {empty && <Loading>Você não tem meetups...</Loading>}
+      {error && <Loading>Ocorreu um erro...</Loading>}
+      {loading ? (
+        <Loading>Carregando...</Loading>
       ) : (
         <ul>
           {meetups.map(meetup => (
