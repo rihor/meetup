@@ -40,6 +40,10 @@ export const Content = styled.div`
       align-self: flex-start;
       margin: 0 0 10px;
       font-weight: bold;
+      color: #fff;
+      background: rgba(255, 142, 142, 0.8);
+      border-radius: 4px;
+      padding: 5px;
     }
     button {
       margin: 5px 0 0;
