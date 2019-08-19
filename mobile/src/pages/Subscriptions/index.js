@@ -48,10 +48,10 @@ function Subscriptions({ isFocused }) {
       .delete(`/meetup/${id}/unsubscribe`)
       .catch(err => {
         if (err.response && err.response.data) {
-          Alert.alert('Error', err.response.data.error);
+          Alert.alert('Error', err.response.data.error.message);
         }
       });
-    if (response.status === 200) {
+    if (response && response.status === 200) {
       loadMeetups();
       Alert.alert('Sucesso', 'Você se desinscreveu com sucesso!');
     }

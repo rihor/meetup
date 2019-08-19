@@ -73,10 +73,10 @@ function Dashboard({ isFocused }) {
   async function handleSubscribe(id) {
     const response = await api.post(`/meetup/${id}/subscribe`).catch(err => {
       if (err.response && err.response.data) {
-        Alert.alert('Error', err.response.data.error);
+        Alert.alert('Error', err.response.data.error.message);
       }
     });
-    if (response.status === 200) {
+    if (response && response.status === 200) {
       Alert.alert('Sucesso', 'Inscrição feita com sucesso!');
     }
   }
